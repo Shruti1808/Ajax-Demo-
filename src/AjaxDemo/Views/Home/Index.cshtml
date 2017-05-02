@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>AJAX Demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".hello-ajax").click(function () { //What are you going to interact with and how??
+                $.ajax({ //call Ajax
+                    type: 'GET', //Get or POST?? GET in this case.
+                    url: '@Url.Action("ShowHello")',//Call this urlAction whatever you want - but refer to it in the same way in the controller.
+                    success: function (result) {
+                        $('#displayUrlHelloClick').html(result);
+                    }
+                }); //Ajax End Bracket
+            });
+        });// end doc ready bracket
+    </script>
+</head>
+
+<body>
+    <h2>Basic AJAX</h2>
+    <h4 class="hello-ajax">Hello AJAX</h4>
+    <div id="displayUrlHelloClick"></div>
+</body>
+</html>
