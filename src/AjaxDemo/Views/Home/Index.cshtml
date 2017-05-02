@@ -9,12 +9,49 @@
                 $.ajax({ //call Ajax
                     type: 'GET', //Get or POST?? GET in this case.
                     url: '@Url.Action("ShowHello")',//Call this urlAction whatever you want - but refer to it in the same way in the controller.
+                    //--otherTypes: (contentType; data; dataType)--//
                     success: function (result) {
                         $('#displayUrlHelloClick').html(result);
                     }
                 }); //Ajax End Bracket
             });
+
+            $('.sum').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    data: { firstNumber: 1, secondNumber: 2 },
+                    url: '@Url.Action("Sum")',
+                    success: function (result) {
+                        $('#result2').html(result);
+                    }
+                });
+            });
+            $('.display-object').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json', //dataType says what type of data we expect back from the server
+                    contentType: 'application/json',   // contentType says what kind of data we are sending to the server
+                    url: '@Url.Action("DisplayObject")',
+                    success: function (result) {
+                        var resultString = 'Id: ' + result.id + '<br>City: ' + result.city + '<br>Country: ' + result.country;
+                        $('#result3').html(resultString);
+                    }
+                });
+            });
+            $('.display-view').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: '@Url.Action("DisplayViewWithAjax")',
+                    success: function (result) {
+                        $("#result4").html(result);
+                    }
+                });
+            });
+
         });// end doc ready bracket
+
+        
     </script>
 </head>
 
@@ -22,5 +59,22 @@
     <h2>Basic AJAX</h2>
     <h4 class="hello-ajax">Hello AJAX</h4>
     <div id="displayUrlHelloClick"></div>
+
+    <!--using Parameters-->
+
+    <h2>Using Parameters</h2>
+    <h4 class="sum">Sum</h4>
+    <div id="result2"></div>
+
+    <!-----Using Json to display an object-->
+
+    <h2>Using JSON to display an object</h2>
+    <h4 class="display-object">Display object</h4>
+    <div id="result3"></div>
+
+    <h2>Displaying a view</h2>
+    <h4 class="display-view">Display view</h4>
+    <div id="result4"></div>
+
 </body>
 </html>
