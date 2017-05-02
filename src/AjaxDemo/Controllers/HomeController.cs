@@ -10,7 +10,10 @@ namespace AjaxDemo.Controllers
 {
     public class HomeController : Controller
     {
+        private AjaxDemoContext db = new AjaxDemoContext();
         // GET: /<controller>/ This is to View our index page initially
+
+
         public IActionResult Index()
         {
             return View();
@@ -36,6 +39,20 @@ namespace AjaxDemo.Controllers
         public IActionResult DisplayViewWithAjax()
         {
             return View();
+        }
+        public IActionResult submitDest(int destinationCount)
+        {
+            var randomDestinationList = db.Destinations.OrderBy(r => Guid.NewGuid()).Take(destinationCount);
+            return Json(randomDestinationList);
+        }
+
+        [HttpPost]
+        public IActionResult NewDestination(string newCity, string newCountry)
+        {
+            Destination newDestination = new Destination(newCity, newCountry);
+            db.Destinations.Add(newDestination);
+            db.SaveChanges();
+            return Json(newDestination);
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using AjaxDemo.Models;
 
 namespace AjaxDemo
 {
@@ -18,23 +18,23 @@ namespace AjaxDemo
     {
 
         public IConfigurationRoot Configuration { get; set; }
-        //public Startup(IHostingEnvironment env)
-        //{
-        //    var builder = new ConfigurationBuilder()
-        //        .SetBasePath(env.ContentRootPath)
-        //        .AddJsonFile("appsettings.json");
-        //    Configuration = builder.Build();
-        //}
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
+        }
 
-       
-        
+
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddEntityFramework()
-            //    .AddEntityFrameworkSqlServer();
-            //services.AddDbContext<AjaxDemoContext>(options =>
-            //options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddEntityFramework()
+                .AddEntityFrameworkSqlServer();
+            services.AddDbContext<AjaxDemoContext>(options =>
+            options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

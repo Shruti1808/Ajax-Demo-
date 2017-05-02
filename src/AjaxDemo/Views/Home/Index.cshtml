@@ -48,10 +48,40 @@
                     }
                 });
             });
+            $(".display-random-database-items").submit(function (event) {
+                event.preventDefault();
+                console.log($(this).serialize());
+                $.ajax({
+                    type: 'GET',
+                    data: $(this).serialize(),//serialize() method turns data submitted from the form into a format that can be used by the controller
+                    dataType: 'json', //type of data returned
+                    url: '@Url.Action("submitDest")',
+                    success: function (result) {
+                        var resultIntoString = '<ul>';
+                        for (var i = 0; i < result.length; i++) {
+                            resultIntoString += '<li>' + 'City: ' + result[i].city + '</li>' + '<li>' + 'Country: ' + result[i].country + '</li>';
+                        }
+                            resultIntoString += '</ul>';
+                            $('#result5').html(resultIntoString);
+                    }
+                });
+            });
+
+            $(".new-destination").submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("NewDestination")',
+                    type: "POST",
+                    dataType: 'json',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        var resultMessage = 'You\'ve added a new destination to the database!<br>Id: ' + result.id + '<br>City: ' + result.city + '<br>Country: ' + result.country;
+                        $('#result6').html(resultMessage);
+                    }
+                });
+            });
 
         });// end doc ready bracket
-
-        
     </script>
 </head>
 
@@ -72,9 +102,29 @@
     <h4 class="display-object">Display object</h4>
     <div id="result3"></div>
 
+    <!-- rendering a partial view using Ajax-->
     <h2>Displaying a view</h2>
     <h4 class="display-view">Display view</h4>
     <div id="result4"></div>
+
+    <!-- get request with AJAX using form and DB-->
+    <h2>Using a form to make a GET request</h2>
+    <form action="RandomDestinationList" class="display-random-database-items">
+        <label for="destinationCount">How many destinations would you like to see?</label>
+        <input type="number" name="destinationCount" />
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result5"></div>
+    <!-- POST request with AJAX using form and DB-->
+    <h2>Submitting data with a POST request</h2>
+    <form action="NewDestination" class="new-destination">
+        <label for="newCity">City: </label>
+        <input type="text" name="newCity" />
+        <label for="newCountry">Country: </label>
+        <input type="text" name="newCountry" />
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result6"></div>
 
 </body>
 </html>
